@@ -2,6 +2,7 @@
 
 import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { Steps } from '@/components/Steps';
 
 function PreviewContent() {
   const router = useRouter();
@@ -25,9 +26,7 @@ function PreviewContent() {
   };
 
   useEffect(() => {
-    if (!formData.submittedBy || !formData.email) {
-      router.replace('/receipt');
-    }
+    if (!formData.submittedBy || !formData.email) router.replace('/receipt');
   }, [formData.submittedBy, formData.email, router]);
 
   async function handleSend() {
@@ -40,12 +39,8 @@ function PreviewContent() {
         body: JSON.stringify(formData),
       });
       const json = await res.json();
-      if (!res.ok) {
-        throw new Error(json.error ?? 'Failed to send receipt');
-      }
-      router.push(
-        `/confirmation?receiptNumber=${encodeURIComponent(json.receiptNumber)}&email=${encodeURIComponent(formData.email)}&name=${encodeURIComponent(formData.submittedBy)}`
-      );
+      if (!res.ok) throw new Error(json.error ?? 'Failed to send receipt');
+      router.push(`/confirmation?receiptNumber=${encodeURIComponent(json.receiptNumber)}&email=${encodeURIComponent(formData.email)}&name=${encodeURIComponent(formData.submittedBy)}`);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An unexpected error occurred');
       setSending(false);
@@ -53,88 +48,78 @@ function PreviewContent() {
   }
 
   return (
-    <main className="min-h-screen bg-gray-50 py-10 px-4">
-      <div className="max-w-3xl mx-auto">
-        {/* Header */}
-        <div className="bg-[#1B3A6B] rounded-t-xl px-8 py-5 flex items-center justify-between">
-          <div>
-            <p className="text-[#C9A84C] text-xs font-semibold tracking-[2px] uppercase">
-              Alpha Kappa Psi · Omega Phi
-            </p>
-            <h1 className="text-white text-lg font-bold mt-0.5">Expense Receipt Preview</h1>
-          </div>
-          <span className="bg-[#C9A84C]/20 text-[#C9A84C] text-xs font-semibold px-3 py-1 rounded-full tracking-wide uppercase">
-            Preview Mode
-          </span>
+    <div className="min-h-screen bg-[#F4F6F9]">
+      <header className="bg-white border-b border-slate-200">
+        <div className="max-w-3xl mx-auto px-6 h-16 flex items-center justify-between">
+          <img src="/akp-logo.png" alt="Alpha Kappa Psi" className="h-9 w-auto" />
+          <span className="text-[11px] font-semibold text-slate-400 tracking-[0.15em] uppercase">Omega Phi · SJSU</span>
+        </div>
+      </header>
+
+      <main className="max-w-3xl mx-auto px-4 py-8">
+        <div className="flex justify-center mb-7">
+          <Steps current={2} />
         </div>
 
-        {/* Summary bar */}
-        <div className="bg-[#FDF8EC] border-b border-[#E0D4A8] px-8 py-3 flex flex-wrap gap-4 text-sm">
-          <span><span className="text-gray-500">To:</span> <strong className="text-[#1B3A6B]">{formData.submittedBy}</strong></span>
-          <span><span className="text-gray-500">Email:</span> <span>{formData.email}</span></span>
-          <span><span className="text-gray-500">Amount:</span> <strong className="text-[#1B3A6B]">${parseFloat(formData.amountPaid || '0').toFixed(2)}</strong></span>
-          <span><span className="text-gray-500">Period:</span> <span>{formData.semester} {formData.year}</span></span>
-        </div>
-
-        {/* PDF Preview */}
-        <div className="bg-white shadow-lg" style={{ minHeight: '600px' }}>
-          <iframe
-            src={pdfUrl}
-            className="w-full"
-            style={{ height: '680px', border: 'none' }}
-            title="Expense Receipt Preview"
-          />
-        </div>
-
-        {/* Action Bar */}
-        <div className="bg-white rounded-b-xl shadow-lg px-8 py-5 flex flex-col gap-3">
-          {error && (
-            <div className="bg-red-50 border border-red-200 text-red-700 text-sm px-4 py-3 rounded-md">
-              {error}
+        <div className="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
+          {/* Summary bar */}
+          <div className="px-8 py-4 border-b border-slate-100 flex flex-wrap items-center gap-x-6 gap-y-2">
+            <div>
+              <span className="text-xs text-slate-400 block">Reimbursed To</span>
+              <span className="text-sm font-semibold text-[#1B3A6B]">{formData.submittedBy}</span>
             </div>
-          )}
-          <div className="flex gap-3">
-            <button
-              onClick={() => router.back()}
-              disabled={sending}
-              className="flex-1 py-2.5 px-4 border border-gray-300 rounded-md text-sm font-semibold text-gray-700 hover:bg-gray-50 transition disabled:opacity-50"
-            >
-              ← Edit
-            </button>
-            <button
-              onClick={handleSend}
-              disabled={sending}
-              className="flex-[2] py-2.5 px-4 bg-[#1B3A6B] hover:bg-[#14305A] disabled:bg-[#1B3A6B]/60 text-white font-semibold rounded-md transition text-sm tracking-wide shadow-sm flex items-center justify-center gap-2"
-            >
-              {sending ? (
-                <>
-                  <svg className="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-                  </svg>
-                  Sending…
-                </>
-              ) : (
-                'Approve & Send Receipt ✉'
-              )}
-            </button>
+            <div>
+              <span className="text-xs text-slate-400 block">Amount</span>
+              <span className="text-sm font-bold text-[#C9A84C]">${parseFloat(formData.amountPaid || '0').toFixed(2)}</span>
+            </div>
+            <div>
+              <span className="text-xs text-slate-400 block">Period</span>
+              <span className="text-sm font-medium text-slate-700">{formData.semester} {formData.year}</span>
+            </div>
+            <div className="ml-auto">
+              <span className="text-xs bg-[#1B3A6B]/8 text-[#1B3A6B] font-semibold px-2.5 py-1 rounded-full">Preview</span>
+            </div>
           </div>
-          <p className="text-center text-xs text-gray-400">
-            A PDF receipt will be emailed to <strong>{formData.email}</strong>
-          </p>
+
+          {/* PDF iframe */}
+          <iframe src={pdfUrl} className="w-full" style={{ height: '680px', border: 'none' }} title="Receipt Preview" />
+
+          {/* Actions */}
+          <div className="px-8 py-5 border-t border-slate-100">
+            {error && (
+              <div className="mb-4 bg-red-50 border border-red-200 text-red-600 text-sm px-4 py-3 rounded-lg">{error}</div>
+            )}
+            <div className="flex gap-3">
+              <button onClick={() => router.back()} disabled={sending}
+                className="flex-1 py-2.5 border border-slate-200 rounded-lg text-sm font-semibold text-slate-600 hover:bg-slate-50 transition-colors disabled:opacity-50">
+                ← Edit
+              </button>
+              <button onClick={handleSend} disabled={sending}
+                className="flex-[2] py-2.5 bg-[#1B3A6B] hover:bg-[#142d54] disabled:bg-[#1B3A6B]/50 text-white font-semibold rounded-lg transition-colors text-sm flex items-center justify-center gap-2">
+                {sending ? (
+                  <>
+                    <svg className="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                    </svg>
+                    Sending…
+                  </>
+                ) : 'Approve & Send Receipt'}
+              </button>
+            </div>
+            <p className="text-center text-xs text-slate-400 mt-3">
+              PDF will be emailed to <strong>{formData.email}</strong>
+            </p>
+          </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </div>
   );
 }
 
 export default function PreviewPage() {
   return (
-    <Suspense fallback={
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-gray-500">Loading preview…</div>
-      </div>
-    }>
+    <Suspense fallback={<div className="min-h-screen bg-[#F4F6F9] flex items-center justify-center"><span className="text-slate-400 text-sm">Loading…</span></div>}>
       <PreviewContent />
     </Suspense>
   );

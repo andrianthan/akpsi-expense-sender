@@ -1,4 +1,5 @@
 import { ReceiptForm } from '@/components/ReceiptForm';
+import { Steps } from '@/components/Steps';
 
 export const metadata = {
   title: 'Issue Expense Receipt — AKPSI Omega Phi',
@@ -6,29 +7,36 @@ export const metadata = {
 
 export default function ReceiptPage() {
   return (
-    <main className="min-h-screen bg-gray-50 py-10 px-4">
-      <div className="max-w-lg mx-auto">
-        {/* Header */}
-        <div className="bg-[#1B3A6B] rounded-t-xl px-8 py-6 text-center">
-          <p className="text-[#C9A84C] text-xs font-semibold tracking-[3px] uppercase mb-1">
-            Alpha Kappa Psi
-          </p>
-          <h1 className="text-white text-xl font-bold tracking-wide">
-            Omega Phi Chapter — SJSU
-          </h1>
-          <p className="text-[#C9A84C] text-xs tracking-[2px] uppercase mt-1">
-            Issue Expense Receipt
-          </p>
+    <div className="min-h-screen bg-[#F4F6F9]">
+      {/* Header */}
+      <header className="bg-white border-b border-slate-200">
+        <div className="max-w-2xl mx-auto px-6 h-16 flex items-center justify-between">
+          <img src="/akp-logo.png" alt="Alpha Kappa Psi" className="h-9 w-auto" />
+          <span className="text-[11px] font-semibold text-slate-400 tracking-[0.15em] uppercase">
+            Omega Phi · SJSU
+          </span>
+        </div>
+      </header>
+
+      <main className="max-w-2xl mx-auto px-4 py-8">
+        {/* Steps */}
+        <div className="flex justify-center mb-7">
+          <Steps current={1} />
         </div>
 
-        {/* Form Card */}
-        <div className="bg-white rounded-b-xl shadow-lg px-8 py-7">
-          <p className="text-gray-500 text-xs mb-6">
-            Fill in the expense details. You will preview the receipt before sending.
-          </p>
-          <ReceiptForm />
+        {/* Card */}
+        <div className="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
+          <div className="px-8 py-6 border-b border-slate-100">
+            <h1 className="text-lg font-semibold text-[#1B3A6B]">Expense Reimbursement</h1>
+            <p className="text-sm text-slate-400 mt-0.5">
+              Fill in the details below. You&apos;ll preview before sending.
+            </p>
+          </div>
+          <div className="px-8 py-7">
+            <ReceiptForm />
+          </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </div>
   );
 }

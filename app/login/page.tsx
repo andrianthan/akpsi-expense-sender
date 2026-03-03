@@ -1,8 +1,7 @@
 'use client';
 
-import { useState, FormEvent } from 'react';
+import { useState, FormEvent, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Suspense } from 'react';
 
 function LoginContent() {
   const router = useRouter();
@@ -16,13 +15,11 @@ function LoginContent() {
     e.preventDefault();
     setLoading(true);
     setError('');
-
     const res = await fetch('/api/auth/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ password }),
     });
-
     if (res.ok) {
       router.push(redirectTo);
       router.refresh();
@@ -34,53 +31,39 @@ function LoginContent() {
   }
 
   return (
-    <main className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
-      <div className="max-w-sm w-full">
-        {/* Header */}
-        <div className="bg-[#1B3A6B] rounded-t-xl px-8 py-7 text-center">
-          <p className="text-[#C9A84C] text-xs font-semibold tracking-[3px] uppercase mb-1.5">
-            Alpha Kappa Psi
-          </p>
-          <h1 className="text-white text-xl font-bold tracking-wide">
-            Omega Phi Chapter
-          </h1>
-          <p className="text-[#C9A84C]/80 text-xs mt-1 tracking-wide">Receipt System</p>
+    <div className="min-h-screen bg-[#F4F6F9] flex flex-col items-center justify-center px-4">
+      <div className="w-full max-w-sm">
+        <div className="flex justify-center mb-8">
+          <img src="/akp-logo.png" alt="Alpha Kappa Psi" className="h-10 w-auto" />
         </div>
-
-        {/* Login Card */}
-        <div className="bg-white rounded-b-xl shadow-lg px-8 py-7">
-          <p className="text-gray-500 text-sm mb-5 text-center">
-            Enter the VP Finance password to continue.
-          </p>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label htmlFor="password" className="block text-sm font-semibold text-gray-700 mb-1">
-                Password
-              </label>
-              <input
-                id="password"
-                type="password"
-                value={password}
-                onChange={e => setPassword(e.target.value)}
-                placeholder="••••••••"
-                autoFocus
-                className={`w-full px-3 py-2 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-[#1B3A6B] transition ${
-                  error ? 'border-red-400 bg-red-50' : 'border-gray-300'
-                }`}
-              />
-              {error && <p className="mt-1 text-xs text-red-600">{error}</p>}
-            </div>
-            <button
-              type="submit"
-              disabled={loading || !password}
-              className="w-full py-2.5 px-4 bg-[#1B3A6B] hover:bg-[#14305A] disabled:bg-[#1B3A6B]/50 text-white font-semibold rounded-md transition text-sm tracking-wide shadow-sm"
-            >
-              {loading ? 'Checking…' : 'Sign In'}
-            </button>
-          </form>
+        <div className="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
+          <div className="px-8 py-6 border-b border-slate-100">
+            <h1 className="text-base font-semibold text-[#1B3A6B]">Expense Receipt System</h1>
+            <p className="text-sm text-slate-400 mt-0.5">Omega Phi Chapter · SJSU</p>
+          </div>
+          <div className="px-8 py-7">
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div>
+                <label htmlFor="password" className="block text-sm font-medium text-slate-700 mb-1.5">Password</label>
+                <input
+                  id="password" type="password"
+                  value={password} onChange={e => setPassword(e.target.value)}
+                  placeholder="••••••••" autoFocus
+                  className={`w-full px-3.5 py-2.5 rounded-lg border text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 transition-colors bg-white ${
+                    error ? 'border-red-300 bg-red-50 focus:border-red-400 focus:ring-red-100' : 'border-slate-200 focus:border-[#1B3A6B] focus:ring-[#1B3A6B]/10'
+                  }`}
+                />
+                {error && <p className="mt-1.5 text-xs text-red-500">{error}</p>}
+              </div>
+              <button type="submit" disabled={loading || !password}
+                className="w-full py-2.5 bg-[#1B3A6B] hover:bg-[#142d54] disabled:bg-slate-200 disabled:text-slate-400 text-white font-semibold rounded-lg transition-colors text-sm">
+                {loading ? 'Signing in…' : 'Sign In'}
+              </button>
+            </form>
+          </div>
         </div>
       </div>
-    </main>
+    </div>
   );
 }
 
