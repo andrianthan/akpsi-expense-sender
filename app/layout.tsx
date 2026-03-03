@@ -5,8 +5,8 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "AKPSI Dues Receipt — Omega Phi Chapter",
-  description: "Alpha Kappa Psi Omega Phi Chapter dues receipt system",
+  title: "AKPSI Expense Receipt — Omega Phi Chapter",
+  description: "Alpha Kappa Psi Omega Phi Chapter expense receipt system",
 };
 
 export default function RootLayout({
