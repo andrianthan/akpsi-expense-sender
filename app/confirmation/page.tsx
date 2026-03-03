@@ -16,7 +16,7 @@ function ConfirmationContent() {
       <header className="bg-white border-b border-slate-200">
         <div className="max-w-2xl mx-auto px-6 h-16 flex items-center justify-between">
           <img src="/akp-logo.png" alt="Alpha Kappa Psi" className="h-9 w-auto" />
-          <span className="text-[11px] font-semibold text-slate-400 tracking-[0.15em] uppercase">Omega Phi · SJSU</span>
+          <span className="text-[11px] font-semibold text-slate-400 tracking-[0.15em] uppercase">AKPSI · Omega Phi</span>
         </div>
       </header>
 

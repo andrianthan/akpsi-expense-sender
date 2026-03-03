@@ -13,7 +13,7 @@ export default function ReceiptPage() {
         <div className="max-w-2xl mx-auto px-6 h-16 flex items-center justify-between">
           <img src="/akp-logo.png" alt="Alpha Kappa Psi" className="h-9 w-auto" />
           <span className="text-[11px] font-semibold text-slate-400 tracking-[0.15em] uppercase">
-            Omega Phi · SJSU
+            AKPSI · Omega Phi
           </span>
         </div>
       </header>

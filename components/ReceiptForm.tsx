@@ -98,7 +98,7 @@ export function ReceiptForm() {
           <input
             id="email" name="email" type="email"
             value={form.email} onChange={handleChange}
-            placeholder="member@sjsu.edu"
+            placeholder="Email address"
             className={errors.email ? inputError : inputNormal}
           />
           {errorMsg('email')}
@@ -184,7 +184,7 @@ export function ReceiptForm() {
         <input
           id="processedBy" name="processedBy" type="text"
           value={form.processedBy} onChange={handleChange}
-          placeholder="VP Finance name"
+          placeholder="Your name"
           className={errors.processedBy ? inputError : inputNormal}
         />
         {errorMsg('processedBy')}
