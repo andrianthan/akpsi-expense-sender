@@ -13,7 +13,8 @@ export default function SettingsPage() {
   useEffect(() => {
     fetch('/api/settings')
       .then(r => r.json())
-      .then(d => { setTemplate(d.template); setLoading(false); });
+      .then(d => { setTemplate(d.template); setLoading(false); })
+      .catch(() => { setError('Failed to load template.'); setLoading(false); });
   }, []);
 
   async function handleSubmit(e: FormEvent) {
@@ -21,16 +22,20 @@ export default function SettingsPage() {
     setSaving(true);
     setError('');
     setSaved(false);
-    const res = await fetch('/api/settings', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ template }),
-    });
-    if (res.ok) {
-      setSaved(true);
-    } else {
+    try {
+      const res = await fetch('/api/settings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ template }),
+      });
       const json = await res.json();
-      setError(json.error ?? 'Failed to save');
+      if (res.ok) {
+        setSaved(true);
+      } else {
+        setError(json.error ?? 'Failed to save');
+      }
+    } catch {
+      setError('Network error — could not save template.');
     }
     setSaving(false);
   }
