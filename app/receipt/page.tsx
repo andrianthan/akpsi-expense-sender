@@ -1,16 +1,12 @@
 import { ReceiptForm } from '@/components/ReceiptForm';
 import { Steps } from '@/components/Steps';
-import { getEmailTemplate } from '@/lib/db/settings';
 import Link from 'next/link';
-
-export const dynamic = 'force-dynamic';
 
 export const metadata = {
   title: 'Issue Expense Receipt — AKPSI Omega Phi',
 };
 
-export default async function ReceiptPage() {
-  const defaultMessage = await getEmailTemplate();
+export default function ReceiptPage() {
   return (
     <div className="min-h-screen bg-[#F4F6F9]">
       {/* Header */}
@@ -44,7 +40,7 @@ export default async function ReceiptPage() {
             </Link>
           </div>
           <div className="px-8 py-7">
-            <ReceiptForm defaultMessage={defaultMessage} />
+            <ReceiptForm />
           </div>
         </div>
       </main>

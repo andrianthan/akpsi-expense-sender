@@ -14,7 +14,7 @@ const inputBase =
 const inputNormal = `${inputBase} border-slate-200 focus:border-[#1B3A6B] focus:ring-[#1B3A6B]/10`;
 const inputError = `${inputBase} border-red-300 bg-red-50 focus:border-red-400 focus:ring-red-100`;
 
-export function ReceiptForm({ defaultMessage = '' }: { defaultMessage?: string }) {
+export function ReceiptForm() {
   const router = useRouter();
   const [errors, setErrors] = useState<Partial<Record<keyof ReceiptFormData, string>>>({});
   const [form, setForm] = useState<ReceiptFormData>({
@@ -27,12 +27,15 @@ export function ReceiptForm({ defaultMessage = '' }: { defaultMessage?: string }
     year: String(currentYear),
     expenseDate: new Date().toISOString().split('T')[0],
     processedBy: '',
-    personalMessage: defaultMessage,
+    personalMessage: '',
   });
 
   useEffect(() => {
-    setForm(prev => ({ ...prev, personalMessage: defaultMessage }));
-  }, [defaultMessage]);
+    fetch('/api/settings')
+      .then(r => r.json())
+      .then(d => setForm(prev => ({ ...prev, personalMessage: d.template ?? '' })))
+      .catch(() => {});
+  }, []);
 
   function validate(): boolean {
     const e: Partial<Record<keyof ReceiptFormData, string>> = {};
