@@ -77,7 +77,7 @@ export default function SettingsPage() {
                     className="w-full px-3.5 py-2.5 rounded-lg border border-slate-200 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:border-[#1B3A6B] focus:ring-[#1B3A6B]/10 transition-colors bg-white resize-none"
                   />
                   <p className="mt-1.5 text-xs text-slate-400">
-                    This appears below "Dear [Name]," in every receipt email. Can be overridden per receipt.
+                    This appears below &ldquo;Dear [Name],&rdquo; in every receipt email. Can be overridden per receipt.
                   </p>
                 </div>
 
