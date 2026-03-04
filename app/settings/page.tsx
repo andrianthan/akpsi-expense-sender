@@ -1,9 +1,11 @@
 'use client';
 
 import { useState, useEffect, FormEvent } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 export default function SettingsPage() {
+  const router = useRouter();
   const [template, setTemplate] = useState('');
   const [saved, setSaved] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -30,7 +32,7 @@ export default function SettingsPage() {
       });
       const json = await res.json();
       if (res.ok) {
-        setSaved(true);
+        router.push('/receipt');
       } else {
         setError(json.error ?? 'Failed to save');
       }

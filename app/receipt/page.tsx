@@ -3,6 +3,8 @@ import { Steps } from '@/components/Steps';
 import { getEmailTemplate } from '@/lib/db/settings';
 import Link from 'next/link';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata = {
   title: 'Issue Expense Receipt — AKPSI Omega Phi',
 };
