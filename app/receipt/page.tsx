@@ -1,11 +1,14 @@
 import { ReceiptForm } from '@/components/ReceiptForm';
 import { Steps } from '@/components/Steps';
+import { getEmailTemplate } from '@/lib/db/settings';
+import Link from 'next/link';
 
 export const metadata = {
   title: 'Issue Expense Receipt — AKPSI Omega Phi',
 };
 
-export default function ReceiptPage() {
+export default async function ReceiptPage() {
+  const defaultMessage = await getEmailTemplate();
   return (
     <div className="min-h-screen bg-[#F4F6F9]">
       {/* Header */}
@@ -26,14 +29,20 @@ export default function ReceiptPage() {
 
         {/* Card */}
         <div className="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
-          <div className="px-8 py-6 border-b border-slate-100">
-            <h1 className="text-lg font-semibold text-[#1B3A6B]">Expense Reimbursement</h1>
-            <p className="text-sm text-slate-400 mt-0.5">
-              Fill in the details below. You&apos;ll preview before sending.
-            </p>
+          <div className="px-8 py-6 border-b border-slate-100 flex items-start justify-between">
+            <div>
+              <h1 className="text-lg font-semibold text-[#1B3A6B]">Expense Reimbursement</h1>
+              <p className="text-sm text-slate-400 mt-0.5">
+                Fill in the details below. You&apos;ll preview before sending.
+              </p>
+            </div>
+            <Link href="/settings"
+              className="text-xs text-slate-400 hover:text-[#1B3A6B] transition-colors mt-0.5 shrink-0">
+              Edit template
+            </Link>
           </div>
           <div className="px-8 py-7">
-            <ReceiptForm />
+            <ReceiptForm defaultMessage={defaultMessage} />
           </div>
         </div>
       </main>

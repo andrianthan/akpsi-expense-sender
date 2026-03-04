@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-const PROTECTED_PATHS = ['/receipt', '/preview', '/confirmation', '/api/send-receipt'];
+const PROTECTED_PATHS = ['/receipt', '/preview', '/confirmation', '/api/send-receipt', '/settings', '/api/settings'];
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -26,5 +26,7 @@ export const config = {
     '/preview/:path*',
     '/confirmation/:path*',
     '/api/send-receipt/:path*',
+    '/settings/:path*',
+    '/api/settings/:path*',
   ],
 };

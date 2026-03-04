@@ -8,4 +8,5 @@ export interface ReceiptFormData {
   year: string;
   expenseDate: string;         // ISO date string YYYY-MM-DD
   processedBy: string;
+  personalMessage?: string;
 }

@@ -14,7 +14,7 @@ const inputBase =
 const inputNormal = `${inputBase} border-slate-200 focus:border-[#1B3A6B] focus:ring-[#1B3A6B]/10`;
 const inputError = `${inputBase} border-red-300 bg-red-50 focus:border-red-400 focus:ring-red-100`;
 
-export function ReceiptForm() {
+export function ReceiptForm({ defaultMessage = '' }: { defaultMessage?: string }) {
   const router = useRouter();
   const [errors, setErrors] = useState<Partial<Record<keyof ReceiptFormData, string>>>({});
   const [form, setForm] = useState<ReceiptFormData>({
@@ -27,6 +27,7 @@ export function ReceiptForm() {
     year: String(currentYear),
     expenseDate: new Date().toISOString().split('T')[0],
     processedBy: '',
+    personalMessage: defaultMessage,
   });
 
   function validate(): boolean {
@@ -188,6 +189,18 @@ export function ReceiptForm() {
           className={errors.processedBy ? inputError : inputNormal}
         />
         {errorMsg('processedBy')}
+      </div>
+
+      {/* Personal Message */}
+      <div>
+        {label('Personal Message', false)}
+        <textarea
+          id="personalMessage" name="personalMessage" rows={3}
+          value={form.personalMessage} onChange={handleChange}
+          placeholder="Enter a message to include in the email…"
+          className={`resize-none ${inputNormal}`}
+        />
+        <p className="mt-1.5 text-xs text-slate-400">Pre-filled from your saved template. Edit per-receipt or update the template from <a href="/settings" className="underline hover:text-slate-600">Settings</a>.</p>
       </div>
 
       {/* Divider */}

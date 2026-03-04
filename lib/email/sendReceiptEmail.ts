@@ -53,7 +53,7 @@ export async function sendReceiptEmail(
                 Dear <strong>${data.submittedBy}</strong>,
               </p>
               <p style="margin:10px 0 0;color:#555;font-size:14px;line-height:1.6;">
-                Your expense reimbursement request has been approved and processed. Please find your official receipt attached as a PDF.
+                ${data.personalMessage?.trim() || 'Your expense reimbursement request has been approved and processed. Please find your official receipt attached as a PDF.'}
               </p>
             </td>
           </tr>

@@ -23,6 +23,7 @@ function PreviewContent() {
     year: searchParams.get('year') ?? '',
     expenseDate: searchParams.get('expenseDate') ?? '',
     processedBy: searchParams.get('processedBy') ?? '',
+    personalMessage: searchParams.get('personalMessage') ?? '',
   };
 
   useEffect(() => {
