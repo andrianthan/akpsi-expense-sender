@@ -15,17 +15,21 @@ function LoginContent() {
     e.preventDefault();
     setLoading(true);
     setError('');
-    const res = await fetch('/api/auth/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ password }),
-    });
-    if (res.ok) {
-      router.push(redirectTo);
-      router.refresh();
-    } else {
-      const json = await res.json();
-      setError(json.error ?? 'Incorrect password');
+    try {
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password }),
+      });
+      if (res.ok) {
+        window.location.href = redirectTo;
+      } else {
+        const json = await res.json();
+        setError(json.error ?? 'Incorrect password');
+        setLoading(false);
+      }
+    } catch {
+      setError('Something went wrong. Please try again.');
       setLoading(false);
     }
   }
