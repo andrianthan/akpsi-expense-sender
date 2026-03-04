@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, FormEvent } from 'react';
+import { useState, useEffect, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import type { ReceiptFormData } from '@/lib/types';
 
@@ -29,6 +29,10 @@ export function ReceiptForm({ defaultMessage = '' }: { defaultMessage?: string }
     processedBy: '',
     personalMessage: defaultMessage,
   });
+
+  useEffect(() => {
+    setForm(prev => ({ ...prev, personalMessage: defaultMessage }));
+  }, [defaultMessage]);
 
   function validate(): boolean {
     const e: Partial<Record<keyof ReceiptFormData, string>> = {};

@@ -32,6 +32,7 @@ export default function SettingsPage() {
       });
       const json = await res.json();
       if (res.ok) {
+        router.refresh();
         router.push('/receipt');
       } else {
         setError(json.error ?? 'Failed to save');
